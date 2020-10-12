@@ -45,6 +45,7 @@ class InAppWebViewController {
       MethodChannel('com.pichillilorenzo/flutter_inappwebview_static');
   Map<String, JavaScriptHandlerCallback> javaScriptHandlersMap =
       HashMap<String, JavaScriptHandlerCallback>();
+  JsonJavaScriptHandlerCallback jsonJavaScriptHandlerCallback;
 
   // ignore: unused_field
   bool _isOpened = false;
@@ -903,6 +904,11 @@ class InAppWebViewController {
               _webview.onWindowBlur(this);
             else if (_inAppBrowser != null) _inAppBrowser.onWindowBlur();
             return null;
+        }
+
+        if (jsonJavaScriptHandlerCallback != null) {
+          jsonJavaScriptHandlerCallback(handlerName);
+          return null;
         }
 
         if (javaScriptHandlersMap.containsKey(handlerName)) {

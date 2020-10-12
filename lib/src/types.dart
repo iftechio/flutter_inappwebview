@@ -30,6 +30,9 @@ var uuidGenerator = new Uuid();
 ///In this case, simply return data that you want to send and it will be automatically json encoded using [jsonEncode] from the `dart:convert` library.
 typedef dynamic JavaScriptHandlerCallback(List<dynamic> arguments);
 
+// raw json data
+typedef dynamic JsonJavaScriptHandlerCallback(String data);
+
 ///Class representing the level of a console message.
 class ConsoleMessageLevel {
   final int _value;
