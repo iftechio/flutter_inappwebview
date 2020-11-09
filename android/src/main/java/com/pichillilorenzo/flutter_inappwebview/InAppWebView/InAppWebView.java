@@ -35,16 +35,20 @@ import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
 import android.webkit.ValueCallback;
 import android.webkit.WebBackForwardList;
+import android.webkit.WebChromeClient;
 import android.webkit.WebHistoryItem;
 import android.webkit.WebSettings;
 import android.webkit.WebStorage;
+import android.webkit.WebViewClient;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Keep;
 import androidx.annotation.RequiresApi;
 import androidx.webkit.WebViewCompat;
 import androidx.webkit.WebViewFeature;
+import androidx.webkit.WebViewRenderProcessClient;
 
 import com.pichillilorenzo.flutter_inappwebview.ContentBlocker.ContentBlocker;
 import com.pichillilorenzo.flutter_inappwebview.ContentBlocker.ContentBlockerAction;
@@ -59,6 +63,9 @@ import com.pichillilorenzo.flutter_inappwebview.Util;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateExpiredException;
+import java.security.cert.CertificateNotYetValidException;
+import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -715,12 +722,8 @@ final public class InAppWebView extends InputAwareWebView {
     setVerticalScrollBarEnabled(!options.disableVerticalScroll && options.verticalScrollBarEnabled);
     setHorizontalScrollBarEnabled(!options.disableHorizontalScroll && options.horizontalScrollBarEnabled);
 
-    if (options.transparentBackground) {
+    if (options.transparentBackground)
       setBackgroundColor(Color.TRANSPARENT);
-      if(getBackground() != null) {
-        getBackground().setAlpha(0);
-      }
-    }
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && options.mixedContentMode != null)
       settings.setMixedContentMode(options.mixedContentMode);
